@@ -1,0 +1,54 @@
+z:=now()	
+randseed(z.nanosecond())	
+edgesmooth = 8	
+cell_size_in_plane := 1e-9	
+cell_size_out_of_plane := 2e-9	
+diameter_cells := 128	
+diameterx:= diameter_cells*cell_size_in_plane	
+diametery:=56e-9		
+SetGridsize(diameter_cells, diameter_cells, 1)	
+SetCellsize(cell_size_in_plane, cell_size_in_plane, cell_size_out_of_plane)	
+setgeom(ellipse(diameterx,diametery))	
+Msat  = 1.4e6 	
+Aex   = 3e-11	
+alpha = 0.5	
+AnisU = vector(0, 0, 1)	
+k := 1300	
+d := 20	
+OutputFormat = OVF2_TEXT	
+TableAdd(maxTorque)	
+TableAdd(E_demag)	
+TableAdd(E_anis)	
+TableAdd(E_exch)	
+TableAdd(E_Zeeman)	
+TableAdd(E_total)	
+TableAdd(B_ext)	
+TableAdd(J)	
+TableAddVar(k,"Ku1","J/m3")	
+TableAddVar(d, "Dex", "J/m2")	
+TableAdd(ext_bubblepos)	
+TableAdd(ext_bubblespeed)	
+TableAdd(ext_topologicalcharge)	
+TableAdd(ext_topologicalchargedensity)	
+TableAdd(Temp)	
+m=neelskyrmion(1,1)
+Ku1 = k*1e3	
+Dind = d*1e-4	
+runwhile(maxtorque > 1e-4)
+
+Bmax  := 200.0e-3
+Bstep :=  5.0e-3
+
+TableAdd(B_ext)
+
+for B:=0.0; B<=Bmax; B+=Bstep{
+    B_ext = vector(0, 0, B)
+    minimize()   // small changes best minimized by minimize()
+    tablesave()
+    saveas(m,Sprint("ellipse_",diametery,"nm_Ku_",k,"_Dex_",d,"_B_ext",B,".ovf"))	
+}
+
+
+
+
+	
