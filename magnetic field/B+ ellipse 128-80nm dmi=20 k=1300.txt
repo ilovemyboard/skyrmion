@@ -36,7 +36,7 @@ Ku1 = k*1e3
 Dind = d*1e-4	
 runwhile(maxtorque > 1e-4)
 
-Bmax  := 200.0e-3
+Bmax  := 500.0e-3
 Bstep :=  5.0e-3
 
 TableAdd(B_ext)
